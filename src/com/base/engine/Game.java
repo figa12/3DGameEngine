@@ -4,8 +4,22 @@ import org.lwjgl.input.Keyboard;
 
 public class Game {
 
-    public Game() {
+    private Mesh mesh;
+    private Shader shader;
 
+    public Game() {
+        this.mesh = new Mesh();
+        this.shader = new Shader();
+
+        Vertex[] data = new Vertex[] {new Vertex(new Vector3f(-1,-1,0)),
+                                      new Vertex(new Vector3f(0,1,0)),
+                                      new Vertex(new Vector3f(1,-1,0))};
+
+        mesh.addVertices(data);
+
+        this.shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
+        this.shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
+        this.shader.compileShader();
     }
 
     public void input() {
@@ -31,7 +45,8 @@ public class Game {
     }
 
     public void render() {
-
+        this.shader.bind();
+        mesh.draw();
     }
 
 }
